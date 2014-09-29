@@ -3,29 +3,44 @@ package de.dhbw.pictureshow.servlet;
 import de.dhbw.pictureshow.database.Transaction;
 import de.dhbw.pictureshow.database.dao.BildDao;
 import de.dhbw.pictureshow.database.dao.UserDao;
-import de.dhbw.pictureshow.domain.Build;
-import de.dhbw.pictureshow.domain.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+
+/**
+ * Created by poetterm on 25.09.2014.
+ */
+
+
+import de.dhbw.pictureshow.database.Transaction;
+        import de.dhbw.pictureshow.database.dao.BildDao;
+        import de.dhbw.pictureshow.database.dao.UserDao;
+        import de.dhbw.pictureshow.domain.Build;
+        import de.dhbw.pictureshow.domain.User;
+        import org.slf4j.Logger;
+        import org.slf4j.LoggerFactory;
+
+        import javax.inject.Inject;
+        import javax.servlet.RequestDispatcher;
+        import javax.servlet.ServletException;
+        import javax.servlet.annotation.WebServlet;
+        import javax.servlet.http.HttpServlet;
+        import javax.servlet.http.HttpServletRequest;
+        import javax.servlet.http.HttpServletResponse;
+        import java.io.IOException;
+        import java.io.PrintWriter;
+        import java.util.ArrayList;
+        import java.util.Collection;
+        import java.util.List;
 
 /**
  *
  */
-@WebServlet("/user")
-public class UserServlet extends HttpServlet {
+@WebServlet("/test")
+public class ServletTest extends HttpServlet {
     private static final Logger log = LoggerFactory.getLogger(UserServlet.class);
 
     @Inject
@@ -34,7 +49,6 @@ public class UserServlet extends HttpServlet {
     Transaction transaction;
     @Inject
     BildDao bildDao;
-
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -46,29 +60,6 @@ public class UserServlet extends HttpServlet {
         User user = new User();
         user.setName("User " + users.size());
         userDao.persist(user);
-
-
-        String benutzername = "poetterm";
-        User angemeldet = null;
-        Collection<User> meinUser = userDao.findByName("poetterm");
-        if (meinUser.size() > 0) {
-            angemeldet = meinUser.iterator().next();
-        } else {
-            angemeldet = new User();
-            angemeldet.setName(benutzername);
-            userDao.persist(angemeldet);
-        }
-        Build bild = new Build();
-        bild.setTitel("Urlaubsbild");
-        bild.setUser(angemeldet);
-        bildDao.persist(bild);
-
-
-        transaction.commit();
-
-        users = new ArrayList<>(users); // cloning the read-only list so that we can add something
-        users.add(user);
-
 
         response.setContentType("text/html");
         response.setBufferSize(8192);
@@ -101,4 +92,3 @@ public class UserServlet extends HttpServlet {
         }
     }
 }
-

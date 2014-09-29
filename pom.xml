@@ -190,6 +190,7 @@
 
   <modules>
     <module>pictureserver</module>
+
   </modules>
 
 </project>
